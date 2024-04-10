@@ -42,7 +42,7 @@
             <div class = "row">
               <div class = "col text-start">
                 <button id = "submitanswer" onclick = "" class = "btn btn-primary">Submit Guess</button> <!--put function for submit guess button logic here-->
-                <button id = "shuffle" onclick = "" class = "btn btn-primary">Shuffle Words</button> <!--put function for shuffle button logic here-->
+                <button id = "shuffle" class = "btn btn-primary">Shuffle Words</button> <!--put function for shuffle button logic here-->
               </div>
               <div class = "col text-end">
                 <button id = "newgame" onclick = "getRandomCategories(setUpNewGame)" class = "btn btn-primary">New Game</button><!--put function for new game button logic here-->
@@ -78,7 +78,10 @@
     }
     document.getElementById("newgame").addEventListener("click", function(){
       getRandomCategories(setUpNewGame);
-      alert("New Game button pressed");
     });
+
+    document.getElementById("shuffle").addEventListener("click", function(){
+      controller.handleShuffle(controller.categories);
+    })
   </script>
 </body>
