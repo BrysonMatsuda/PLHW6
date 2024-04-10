@@ -60,6 +60,8 @@ class Controller{
         }
         this.matchCountTotal = 0;
         this.hasWon = false;
+        this.currentGuessArray = [];
+        this.pastGuessArray = [];
     }
 
     displayWordsNotNewGame(categoriesData){
@@ -120,7 +122,7 @@ class Controller{
             let currentGuessBuilder = [];
             let maxCount =0;
             
-            for(let i=0; i <4; i++){
+            for(let i=0; i < this.currentCategories.length; i++){
                 //console.log(this.currentCategories[i].words);
                 //onsole.log(this.currentGuessArray);
                 let currCount = this.arrayEquals(this.currentCategories[i].words, this.currentGuessArray)

@@ -110,6 +110,8 @@
     })
     updateButtonStates();
 
+    getRandomCategories(setUpNewGame);
+
     document.getElementById("numgamesplayed").textContent = controller.numgamesplayed - 1;
     document.getElementById("numgameswon").textContent = controller.numgameswon;
     document.getElementById("winstreak").textContent = controller.winstreak;
