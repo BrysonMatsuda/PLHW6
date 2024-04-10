@@ -82,7 +82,9 @@
     }
     document.getElementById("newgame").addEventListener("click", function(){
       controller.numgamesplayed += 1;
+      controller.currentgameguesses = 0;
       document.getElementById("numgamesplayed").textContent = (controller.numgamesplayed - 1);
+      document.getElementById("currentgameguesses").textContent = controller.currentgameguesses;
       getRandomCategories(setUpNewGame);
     });
 
@@ -91,6 +93,9 @@
     })
 
     document.getElementById("submitanswer").addEventListener("click", function(){
+      controller.currentgameguesses += 1;
+      controller.totalguesses += 1;
+      document.getElementById("currentgameguesses").textContent = (controller.currentgameguesses);
       controller.processGuess();
     })
 
