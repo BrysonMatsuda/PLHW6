@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="UTF-8">  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Bryson Matsuda, Sam Harless">
+  <meta name="description" content="JS Connections">  
+    
+  <title>JS Connections</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"  integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"  crossorigin="anonymous"> 
+
+  <link rel="stylesheet" href="styles/main.css">
+
+</head>
+<body>
+  <div class = "container">
+    <div class = "row">
+      <div class = "col">
+        <h1 class = "text-center mb-4">Connections Game</h1>
+      </div>
+    </div>
+    <div class = "row">
+      <div class = "col">
+        <p>Number of Games Played: <span id = "numgamesplayed"></span></p>
+        <p>Number of Games Won: <span id = "numgameswon"></span></p>
+        <p>Average Number of Guesses per Game: <span id = "avgnumguesses"></span></p>
+        <p>Current Win Streak: <span id = "winstreak"></span></p>
+        <p>Number of Guesses for Current Game: <span id = "currentgameguesses"></span></p>
+      </div>
+    </div>
+    <div class ="row">
+      <div class = "col">
+        <div class = "card">
+          <div class = "card-header text-center">
+            Words
+          </div>
+          <div class = "card-body">
+            <div class = "table-responsive">
+              <table id = "categoriesTable" class = "table table-bordered">
+
+              </table>
+            </div>
+            <!--put table here-->
+          </div>
+          
+          <div class = "card-footer">
+            <div class = "row">
+              <div class = "col text-start">
+                <button id = "submitanswer" onclick = "" class = "btn btn-primary">Submit Guess</button> <!--put function for submit guess button logic here-->
+                <button id = "shuffle" class = "btn btn-primary">Shuffle Words</button> <!--put function for shuffle button logic here-->
+              </div>
+              <div class = "col text-end">
+                <button id = "newgame" class = "btn btn-primary">New Game</button><!--put function for new game button logic here-->
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class = "card">
+          <div class = "card-header text-center">
+            Guesses so far:
+          </div>
+          <div class = "card-body">
+            <table class = "table table-dark table-bordered">
+              <!--put table for current guesses here-->
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class = "row">
+        <div class = "col text-end">
+          <button id = "clearhistory" onclick = "" class = "btn btn-danger">Clear History</button><!--put function for clear history logic here-->
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src = "connections.js"></script>
+  <script src = "Controller.js"></script>
+  <script type = "text/javascript">
+    var controller = new Controller();
+
+    function setUpNewGame(newCategories){
+      controller.displayWords(newCategories);
+    }
+    document.getElementById("newgame").addEventListener("click", function(){
+      controller.numgamesplayed += 1;
+      document.getElementById("numgamesplayed").textContent = (controller.numgamesplayed - 1);
+      getRandomCategories(setUpNewGame);
+    });
+
+    document.getElementById("shuffle").addEventListener("click", function(){
+      controller.handleShuffle();
+    })
+
+    document.getElementById("submitanswer").addEventListener("click", function(){
+      controller.processGuess();
+    })
+
+
+    document.getElementById("numgamesplayed").textContent = controller.numgamesplayed - 1;
+    document.getElementById("numgameswon").textContent = controller.numgameswon;
+    document.getElementById("winstreak").textContent = controller.winstreak;
+    document.getElementById("avgnumguesses").textContent = controller.totalguesses / controller.numgamesplayed;
+    document.getElementById("currentgameguesses").textContent = controller.currentgameguesses;
+
+
+
+
+  </script>
+</body>
