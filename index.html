@@ -17,11 +17,11 @@
     </div>
     <div class = "row">
       <div class = "col">
-        <p>Number of Games Played: </p>
-        <p>Number of Games Won: </p>
-        <p>Average Number of Guesses per Game</p>
-        <p>Current Win Streak: </p>
-        <p>Number of Guesses for Current Game: </p>
+        <p>Number of Games Played: <span id = "numgamesplayed"></span></p>
+        <p>Number of Games Won: <span id = "numgameswon"></span></p>
+        <p>Average Number of Guesses per Game: <span id = "avgnumguesses"></span></p>
+        <p>Current Win Streak: <span id = "winstreak"></span></p>
+        <p>Number of Guesses for Current Game: <span id = "currentgameguesses"></span></p>
       </div>
     </div>
     <div class ="row">
@@ -45,7 +45,7 @@
                 <button id = "shuffle" class = "btn btn-primary">Shuffle Words</button> <!--put function for shuffle button logic here-->
               </div>
               <div class = "col text-end">
-                <button id = "newgame" onclick = "getRandomCategories(setUpNewGame)" class = "btn btn-primary">New Game</button><!--put function for new game button logic here-->
+                <button id = "newgame" class = "btn btn-primary">New Game</button><!--put function for new game button logic here-->
               </div>
             </div>
           </div>
@@ -77,11 +77,23 @@
       controller.displayWords(newCategories);
     }
     document.getElementById("newgame").addEventListener("click", function(){
+      controller.numgamesplayed += 1;
+      document.getElementById("numgamesplayed").textContent = (controller.numgamesplayed - 1);
       getRandomCategories(setUpNewGame);
     });
 
     document.getElementById("shuffle").addEventListener("click", function(){
-      controller.handleShuffle(controller.categories);
+      controller.handleShuffle();
     })
+
+    document.getElementById("numgamesplayed").textContent = controller.numgamesplayed - 1;
+    document.getElementById("numgameswon").textContent = controller.numgameswon;
+    document.getElementById("winstreak").textContent = controller.winstreak;
+    document.getElementById("avgnumguesses").textContent = controller.totalguesses / controller.numgamesplayed;
+    document.getElementById("currentgameguesses").textContent = controller.currentgameguesses;
+
+
+
+
   </script>
 </body>

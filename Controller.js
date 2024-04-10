@@ -1,6 +1,11 @@
 class Controller{
     constructor(){
         this.categories = [];
+        this.totalguesses = 0;
+        this.currentgameguesses = 0;
+        this.winstreak = 0;
+        this.numgamesplayed = 1;
+        this.numgameswon = 0;
     }
 
     setUpNewGame(newCategories){
