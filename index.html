@@ -31,6 +31,9 @@
             Words
           </div>
           <div class = "card-body">
+            <table id = "categoriesTable" class = "table-bordered">
+
+            </table>
             <!--put table here-->
           </div>
           <div class = "card-footer">
@@ -40,7 +43,7 @@
                 <button id = "shuffle" onclick = "" class = "btn btn-primary">Shuffle Words</button> <!--put function for shuffle button logic here-->
               </div>
               <div class = "col text-end">
-                <button id = "newgame" onclick = "" class = "btn btn-primary">New Game</button><!--put function for new game button logic here-->
+                <button id = "newgame" onclick = "getRandomCategories(setUpNewGame)" class = "btn btn-primary">New Game</button><!--put function for new game button logic here-->
               </div>
             </div>
           </div>
@@ -63,4 +66,17 @@
       </div>
     </div>
   </div>
+  <script src = "connections.js"></script>
+  <script src = "Controller.js"></script>
+  <script type = "text/javascript">
+    var controller = new Controller();
+
+    function setUpNewGame(newCategories){
+      controller.displayWords(newCategories);
+    }
+    document.getElementById("newgame").addEventListener("click", function(){
+      getRandomCategories(setUpNewGame);
+      alert("New Game button pressed");
+    });
+  </script>
 </body>

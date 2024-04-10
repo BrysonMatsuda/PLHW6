@@ -1,26 +1,31 @@
-const fs = require('fs');
 class Controller{
     constructor(){
         this.categories = [];
     }
 
-    getJSONCategories() {
-        fs.readFile('web/www/hw6/connections.json', 'utf8', (err, data) => {
-            if (err) {
-                console.error('Error reading JSON file:', err);
-                return;
-            }
-            const jsonData = JSON.parse(data);
-            const resultArray = Object.entries(jsonData).map(([name, category]) => ({
-                name,
-                category
-            }));
-            this.categories = resultArray;
-            console.log(this.categories);
-            return resultArray;
-        });
+    setUpNewGame(newCategories){
+        this.displayWords(newCategories);
     }
-}
 
-const controller = new Controller();
-controller.getJSONCategories();
+    displayWords(categoriesData) {
+        var table = document.getElementById("categoriesTable");
+        table.innerHTML = "";
+        if (!categoriesData || !Array.isArray(categoriesData.categories)) {
+            console.error('Invalid categories data:', categoriesData);
+            return;
+        }
+        let categories = categoriesData.categories;
+        let allWords = categories.flatMap(category => category.words);
+        allWords.sort(() => Math.random() - 0.5);
+        for (let i = 0; i < 4; i++) {
+            let row = table.insertRow();
+            for (let j = 0; j < 4; j++) {
+                let index = i * 4 + j;
+                let word = allWords[index];
+                let cell = row.insertCell();
+                cell.textContent = word;
+            }
+        }
+    }
+    
+}
