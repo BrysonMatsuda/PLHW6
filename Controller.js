@@ -3,12 +3,14 @@ class Controller{
         this.categories = [];
         this.totalguesses = 0;
         this.currentgameguesses = 0;
+        this.avgnumguesses = 0;
         this.winstreak = 0;
         this.numgamesplayed = 1;
         this.numgameswon = 0;
         this.currentGuessArray = [];
         this.pastGuessArray = [];
         this.currentCategories = [];//going to have words taken out of it to take words out of table
+        this.matchCountTotal = 0;
     }
 
     setUpNewGame(newCategories){
@@ -47,6 +49,15 @@ class Controller{
                 });
             }
         }
+        var guesstable = document.getElementById("guessTable");
+        guesstable.innerHTML = "";
+        if(this.matchCountTotal != 4){
+            this.winstreak = 0;
+            this.avgnumguesses = this.totalguesses / this.numgamesplayed;
+            document.getElementById("winstreak").textContent = this.winstreak;
+            document.getElementById("avgnumguesses").textContent = this.avgnumguesses;
+        }
+        this.matchCountTotal = 0;
     }
 
     displayWordsNotNewGame(categoriesData){
@@ -100,7 +111,8 @@ class Controller{
             alert("You must guess exactly 4 words!");
         }
         else{
-            this.currentgameguesses++;
+            this.currentgameguesses += 1;
+            document.getElementById("currentgameguesses").textContent = this.currentgameguesses;
             //alert(this.currentGuessArray);
             //alert(this.categories[0].words);
             let currentGuessBuilder = [];
@@ -111,6 +123,7 @@ class Controller{
                 //onsole.log(this.currentGuessArray);
                 let currCount = this.arrayEquals(this.currentCategories[i].words, this.currentGuessArray)
                 if(currCount == 4){//guess was right!
+                    this.matchCountTotal++;
                     currentGuessBuilder = this.currentGuessArray.concat(["Correct! Category: ".concat(this.currentCategories[i].category)]);
                     this.currentCategories.splice(i, 1);//removes the category object that the guess was 
                     break;
@@ -133,6 +146,16 @@ class Controller{
             console.log(currentGuessBuilder);
             this.guessTableInsert(currentGuessBuilder);
             this.displayWordsNotNewGame(this.currentCategories);
+        }
+        if(this.matchCountTotal == 4){
+            alert("YOU WON!");
+            this.winstreak++;
+            this.numgameswon++;
+            this.avgnumguesses = this.totalguesses / this.numgamesplayed;
+            document.getElementById("winstreak").textContent = this.winstreak;
+            document.getElementById("numgameswon").textContent = this.numgameswon;
+            document.getElementById("avgnumguesses").textContent = this.avgnumguesses;
+            //put more on ending game here
         }
     }
 
