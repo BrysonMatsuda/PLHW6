@@ -11,6 +11,7 @@ class Controller{
         this.pastGuessArray = [];
         this.currentCategories = [];//going to have words taken out of it to take words out of table
         this.matchCountTotal = 0;
+        this.hasWon = false;
     }
 
     setUpNewGame(newCategories){
@@ -58,6 +59,7 @@ class Controller{
             document.getElementById("avgnumguesses").textContent = this.avgnumguesses;
         }
         this.matchCountTotal = 0;
+        this.hasWon = false;
     }
 
     displayWordsNotNewGame(categoriesData){
@@ -149,6 +151,7 @@ class Controller{
         }
         if(this.matchCountTotal == 4){
             alert("YOU WON!");
+            this.hasWon = true;
             this.winstreak++;
             this.numgameswon++;
             this.avgnumguesses = this.totalguesses / this.numgamesplayed;

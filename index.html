@@ -31,7 +31,7 @@
       <div class = "col">
         <div class = "card">
           <div class = "card-header text-center">
-            Words
+            Select 4 Words From the Table
           </div>
           <div class = "card-body">
             <div class = "table-responsive">
@@ -77,9 +77,20 @@
   <script type = "text/javascript">
     var controller = new Controller();
 
+    function updateButtonStates(){
+      if(controller.hasWon){
+        document.getElementById("shuffle").disabled = true;
+        document.getElementById("submitanswer").disabled = true;
+      }else{
+        document.getElementById("shuffle").disabled = false;
+        document.getElementById("submitanswer").disabled = false;
+      }
+    }
     function setUpNewGame(newCategories){
       controller.displayWords(newCategories);
+      updateButtonStates();
     }
+
     document.getElementById("newgame").addEventListener("click", function(){
       controller.numgamesplayed += 1;
       controller.currentgameguesses = 0;
@@ -95,8 +106,9 @@
     document.getElementById("submitanswer").addEventListener("click", function(){
       controller.totalguesses += 1;
       controller.processGuess();
+      updateButtonStates();
     })
-
+    updateButtonStates();
 
     document.getElementById("numgamesplayed").textContent = controller.numgamesplayed - 1;
     document.getElementById("numgameswon").textContent = controller.numgameswon;
