@@ -9,9 +9,54 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"  integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"  crossorigin="anonymous"> 
 
   <link rel="stylesheet" href="styles/main.css">
+  <script src = "connections.js"></script>
+  <script src = "Controller.js"></script>
+  <script>
+    var controller = new Controller();
+
+    function load(){
+      var controllerFromLocalStorage = localStorage.getItem("controller");
+      if(controllerFromLocalStorage != null){
+        var parsedController = JSON.parse(controllerFromLocalStorage);
+
+        controller = new Controller();
+
+        for (let prop in parsedController) {
+          if (parsedController.hasOwnProperty(prop)) {
+            controller[prop] = parsedController[prop];
+          }
+        }
+
+        console.log(JSON.parse(controllerFromLocalStorage));
+       
+        controller.displayWordsNotNewGame(controller.currentCategories);
+        controller.rebuildGuessTable(controller.pastGuessArray);
+        controller.updateAllStats();
+        updateButtonStates();
+      }
+      else{
+        getRandomCategories(setUpNewGame);
+      }
+    }
+
+    function unload(){
+      controller.currentGuessArray=[];
+      localStorage.setItem("controller", JSON.stringify(controller));
+    }
+
+    function updateButtonStates(){
+      if(controller.hasWon){
+        document.getElementById("shuffle").disabled = true;
+        document.getElementById("submitanswer").disabled = true;
+      }else{
+        document.getElementById("shuffle").disabled = false;
+        document.getElementById("submitanswer").disabled = false;
+      }
+    }
+  </script>
 
 </head>
-<body>
+<body onload="load();" onunload="unload();">
   <div class = "container">
     <div class = "row">
       <div class = "col">
@@ -31,7 +76,7 @@
       <div class = "col">
         <div class = "card">
           <div class = "card-header text-center">
-            Words
+            Select 4 Words From the Table
           </div>
           <div class = "card-body">
             <div class = "table-responsive">
@@ -72,17 +117,26 @@
       </div>
     </div>
   </div>
-  <script src = "connections.js"></script>
-  <script src = "Controller.js"></script>
+  
   <script type = "text/javascript">
-    var controller = new Controller();
+    
 
+    
     function setUpNewGame(newCategories){
       controller.displayWords(newCategories);
+      updateButtonStates();
     }
+
     document.getElementById("newgame").addEventListener("click", function(){
       controller.numgamesplayed += 1;
-      document.getElementById("numgamesplayed").textContent = (controller.numgamesplayed - 1);
+      controller.currentgameguesses = 0;
+      if(!controller.hasWon){
+        controller.winstreak=0;
+
+      }
+      //document.getElementById("numgamesplayed").textContent = (controller.numgamesplayed - 1);
+      //document.getElementById("currentgameguesses").textContent = controller.currentgameguesses;
+      controller.updateAllStats();
       getRandomCategories(setUpNewGame);
     });
 
@@ -90,16 +144,30 @@
       controller.handleShuffle();
     })
 
-    document.getElementById("submitanswer").addEventListener("click", function(){
-      controller.processGuess();
+    document.getElementById("clearhistory").addEventListener("click", function(){
+      controller.clearHistory();
+      controller.updateAllStats();
+      getRandomCategories(setUpNewGame);
     })
 
+
+    document.getElementById("submitanswer").addEventListener("click", function(){
+      
+      controller.processGuess();
+      updateButtonStates();
+      controller.updateAllStats();
+    })
+    updateButtonStates();
+
+    //getRandomCategories(setUpNewGame); took this out bc of the onLoad functionality, but i put in the else{} of the load function if there was nothing in local storage :)
 
     document.getElementById("numgamesplayed").textContent = controller.numgamesplayed - 1;
     document.getElementById("numgameswon").textContent = controller.numgameswon;
     document.getElementById("winstreak").textContent = controller.winstreak;
     document.getElementById("avgnumguesses").textContent = controller.totalguesses / controller.numgamesplayed;
     document.getElementById("currentgameguesses").textContent = controller.currentgameguesses;
+
+    //console.log(JSON.stringify(controller));
 
 
 
