@@ -117,6 +117,7 @@ class Controller{
         else{
             this.currentgameguesses += 1;
             document.getElementById("currentgameguesses").textContent = this.currentgameguesses;
+            this.totalguesses += 1;
             //alert(this.currentGuessArray);
             //alert(this.categories[0].words);
             let currentGuessBuilder = [];
@@ -148,6 +149,7 @@ class Controller{
             }
             this.currentGuessArray = [];
             console.log(currentGuessBuilder);
+            this.pastGuessArray.push(currentGuessBuilder);//store here so that it is there for load
             this.guessTableInsert(currentGuessBuilder);
             this.displayWordsNotNewGame(this.currentCategories);
         }
@@ -188,5 +190,43 @@ class Controller{
     
         return matchCount;
     }
+
+    loadFromStorage(){
+        alert("Loading from storage");
+    }
+
+    rebuildGuessTable(pastGuessArrayFromLoad){
+        for(let i=0;i<pastGuessArrayFromLoad.length; i++){
+            this.guessTableInsert(pastGuessArrayFromLoad[i]);
+        }
+    }
+
+    updateAllStats(){
+        document.getElementById("numgamesplayed").textContent = controller.numgamesplayed - 1;
+        document.getElementById("numgameswon").textContent = controller.numgameswon;
+        document.getElementById("winstreak").textContent = controller.winstreak;
+        document.getElementById("avgnumguesses").textContent = controller.totalguesses / controller.numgamesplayed;
+        document.getElementById("currentgameguesses").textContent = controller.currentgameguesses;
+    }
+
+    clearHistory(){
+        this.categories = [];
+        this.totalguesses = 0;
+        this.currentgameguesses = 0;
+        this.avgnumguesses = 0;
+        this.winstreak = 0;
+        this.numgamesplayed = 1;
+        this.numgameswon = 0;
+        this.currentGuessArray = [];
+        this.pastGuessArray = [];
+        this.currentCategories = [];//going to have words taken out of it to take words out of table
+        this.matchCountTotal = 0;
+        this.hasWon = false;
+
+        localStorage.removeItem("controller");
+        
+    }
+
+   
     
 }
